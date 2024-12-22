@@ -1,35 +1,15 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const Product = require('./models/product.model.js');
-const productRoute = require('./routes/product.route.js');
-const app = express();
+const Product = require("../models/product.model");
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-
-// Routes
-app.use('/api/products', productRoute)
-
-
-app.get('/', (req, res) => {
-    res.send('Hello World dodj!');
-});
-
-
-// Get all products
-/* app.get('/api/products', async (req, res) => {
+const getProducts = async (req, res) => {
     try{
         const products = await Product.find({});
         res.status(200).json(products);
     } catch(err){
         res.status(500).json({ message: err.message });
     }
-});
- */
-// Get single product
-/* app.get('/api/product/:id', async (req, res) => {
+}
+
+const getProduct = async (req, res) => {
     try{
         const { id } = req.params;
         const product = await Product.findById(id);
@@ -37,22 +17,18 @@ app.get('/', (req, res) => {
     } catch(err){
         res.status(500).json({ message: err.message });
     }
-}); */
+}
 
-// Create a product
-/* app.post('/api/products', async (req, res) => {
+const createProduct = async (req, res) => {
     try{
         const product = await Product.create(req.body);
         res.status(200).json(product);
     } catch(err){
         res.status(500).json({ message: err.message });
     }
+}
 
-}); */
-
-
-// Update a product
-/* app.put('/api/product/:id', async (req, res) => {
+const updateProduct = async (req, res) => {
     try{
         const { id } = req.params;
         const product = await Product.findByIdAndUpdate(id, req.body);
@@ -66,11 +42,9 @@ app.get('/', (req, res) => {
     } catch(err){
         res.status(500).json({ message: err.message });
     }
-});
- */
+}
 
-// Delete a product
-/* app.delete('/api/product/:id', async (req, res) => {
+const deleteProduct = async (req, res) => {
     try{
         const { id } = req.params;
         const product = await Product.findByIdAndDelete(id);
@@ -81,16 +55,12 @@ app.get('/', (req, res) => {
     } catch(err){
         res.status(500).json({ message: err.message });
     }
-}); */
+}
 
-// Connect to MongoDB
-mongoose.connect("mongodb+srv://mdmofazzalhossain:9yDA5U1sP5LMq0Ua@backenddb.ajt3c.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackendDB")
-    .then(() => {
-        app.listen(4000, () => {
-            console.log('Example app listening on port 4000!');
-        });
-        console.log('Database Connected');
-    })
-    .catch((err) => {
-        console.log('Database Connection Error:', err);
-    });
+module.exports = {
+    getProducts,
+    getProduct,
+    createProduct,
+    updateProduct,
+    deleteProduct
+}
